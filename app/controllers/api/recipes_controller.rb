@@ -2,16 +2,14 @@ class Api::RecipesController < Api::BaseController
   # jitera-anchor-dont-touch: before_action_filter
   before_action :doorkeeper_authorize!, only: %w[index show update destroy]
   before_action :current_user_authenticate, only: %w[index show update destroy]
+  before_action :get_recipe, only: %w[destroy update show]
 
   # jitera-anchor-dont-touch: actions
   def destroy
-    @recipe = Recipe.find_by(id: params[:id])
     @error_message = true unless @recipe&.destroy
   end
 
   def update
-    @recipe = Recipe.find_by(id: params[:id])
-
     request = {}
     request.merge!('title' => params.dig(:recipes, :title))
     request.merge!('descriptions' => params.dig(:recipes, :descriptions))
@@ -24,7 +22,6 @@ class Api::RecipesController < Api::BaseController
   end
 
   def show
-    @recipe = Recipe.find_by(id: params[:id])
     @error_message = true if @recipe.blank?
   end
 
@@ -54,5 +51,12 @@ class Api::RecipesController < Api::BaseController
     request.merge!('user_id' => params.dig(:recipes, :user_id))
 
     @recipes = Recipe.search_for_index(params)
+    @recipes = @recipes.includes(:ingredients, ratings: [:user])
+  end
+
+  private
+
+  def get_recipe
+    @recipe = Recipe.find(params[:id])
   end
 end

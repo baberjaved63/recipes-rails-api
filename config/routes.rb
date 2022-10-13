@@ -19,36 +19,20 @@ use_doorkeeper
   get '/health' => 'pages#health_check'
 
   namespace :api do
-put '/users_passwords', to: 'users_passwords#put_users_passwords'
-resources :users_registrations, only: [:create] do
- end
-
-resources :users_verify_reset_password_requests, only: [:create] do
- end
-
-resources :users_reset_password_requests, only: [:create] do
- end
-
-resources :users_sessions, only: [:create] do
- end
-
-resources :ingredients, only: [:index, :create, :show, :update, :destroy] do
- end
-
-resources :categories, only: [:index, :create, :show, :update, :destroy] do
- end
-
-resources :recipes, only: [:index, :create, :show, :update, :destroy] do
- end
-
+    put '/users_passwords', to: 'users_passwords#put_users_passwords'
+    resources :users_registrations, only: [:create]
+    resources :users_verify_reset_password_requests, only: [:create]
+    resources :users_reset_password_requests, only: [:create]
+    resources :users_sessions, only: [:create]
+    resources :ingredients, only: [:index, :create, :show, :update, :destroy]
+    resources :categories, only: [:index, :create, :show, :update, :destroy]
+    resources :recipes, only: [:index, :create, :show, :update, :destroy]
   end
 
   # jitera-anchor-dont-touch: webhooks
 
   namespace :dashboard do
     # TODO: customizable table name
-    
-
   end
 
   unless Rails.env.development?
