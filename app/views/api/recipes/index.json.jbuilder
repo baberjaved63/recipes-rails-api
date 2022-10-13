@@ -15,7 +15,11 @@ if @recipes.present?
       json.updated_at ingredient.updated_at
       json.unit ingredient.unit
       json.amount ingredient.amount
-      json.recipe_id ingredient.recipe_id
+    end
+
+    json.reviewers recipe.ratings do |rating|
+      json.user rating.user.email
+      json.rating rating.rate
     end
 
     json.user_id recipe.user_id

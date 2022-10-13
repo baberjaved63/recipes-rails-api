@@ -8,8 +8,9 @@ class User < ApplicationRecord
   # jitera-anchor-dont-touch: relations
 
   has_many :recipes, dependent: :destroy
-
   has_many :ingredients, through: :recipes
+  has_many :ratings
+  has_many :reviewed_recipes, through: :ratings, source: 'recipe'
 
   # jitera-anchor-dont-touch: enum
 

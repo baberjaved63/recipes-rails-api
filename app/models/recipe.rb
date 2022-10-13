@@ -6,9 +6,10 @@ class Recipe < ApplicationRecord
   # jitera-anchor-dont-touch: relations
 
   has_many :ingredients, dependent: :destroy
+  has_many :ratings
+  has_many :reviewers, through: :ratings, source: 'user'
 
   belongs_to :category
-
   belongs_to :user
 
   # jitera-anchor-dont-touch: enum

@@ -8,6 +8,7 @@ if @error_message.blank?
     json.time @recipe.time
     json.difficulty @recipe.difficulty
     json.category_id @recipe.category_id
+    json.user_id @recipe.user_id
 
     json.ingredients @recipe.ingredients do |ingredient|
       json.id ingredient.id
@@ -18,7 +19,10 @@ if @error_message.blank?
       json.recipe_id ingredient.recipe_id
     end
 
-    json.user_id @recipe.user_id
+    json.reviews @recipe.ratings do |rating|
+      json.user rating.user.email
+      json.rating rating.rate
+    end
   end
 else
   json.error_message @error_message
