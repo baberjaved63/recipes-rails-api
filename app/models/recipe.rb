@@ -1,4 +1,6 @@
 class Recipe < ApplicationRecord
+  searchkick
+
   include ConstantValidatable
 
   # jitera-anchor-dont-touch: relations
@@ -29,6 +31,24 @@ class Recipe < ApplicationRecord
 
   def self.associations
     [:ingredients]
+  end
+
+  def self.search_for_index(params)
+    return self.all unless params[:query].present? || params[:filter].present?
+
+    if params[:query].present?
+      search(params[:query], fields: [:title], match: :word_middle)
+    else
+      search_through_filters(params)
+    end
+  end
+
+  def self.search_through_filters(params)
+    if params[:filter][:difficulty].present?
+      search(where: { difficulty: params[:filter][:difficulty] })
+    else
+      search(where: { time: params[:filter][:start]..params[:filter][:end] })
+    end
   end
 
   # jitera-anchor-dont-touch: reset_password

@@ -53,6 +53,6 @@ class Api::RecipesController < Api::BaseController
     request.merge!('category_id' => params.dig(:recipes, :category_id))
     request.merge!('user_id' => params.dig(:recipes, :user_id))
 
-    @recipes = Recipe.all
+    @recipes = Recipe.search_for_index(params)
   end
 end
