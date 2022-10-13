@@ -24,7 +24,11 @@ use_doorkeeper
     resources :users_verify_reset_password_requests, only: [:create]
     resources :users_reset_password_requests, only: [:create]
     resources :users_sessions, only: [:create]
-    resources :ingredients, only: [:index, :create, :show, :update, :destroy]
+    resources :ingredients, only: [:index, :create, :show, :update, :destroy] do
+      collection do
+        get :weight_convertor
+      end
+    end
     resources :categories, only: [:index, :create, :show, :update, :destroy]
     resources :recipes, only: [:index, :create, :show, :update, :destroy]
   end

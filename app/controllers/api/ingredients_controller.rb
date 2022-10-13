@@ -42,6 +42,17 @@ class Api::IngredientsController < Api::BaseController
     @ingredients = Ingredient.all
   end
 
+  def weight_convertor
+    from = params[:from]
+    to = params[:to]
+    @amount = params[:amount].to_f
+    if from == "kilogram" && to == "gram"
+      @amount = @amount * 1000
+    elsif from == "gram" && to == "kilogram"
+      @amount = @amount/1000
+    end
+  end
+
   private
 
   def get_ingredient
