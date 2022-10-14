@@ -25,8 +25,6 @@ class Recipe < ApplicationRecord
   validates :time, length: { maximum: 255, minimum: 0, message: I18n.t('.out_of_range_error') }, presence: true
   validates :difficulty, presence: true
 
-  after_commit :reindex
-
   accepts_nested_attributes_for :ingredients
 
   def self.associations
@@ -49,10 +47,6 @@ class Recipe < ApplicationRecord
     else
       search(where: { time: params[:filter][:start]..params[:filter][:end] })
     end
-  end
-
-  def reindex
-    self.reindex
   end
 
   # jitera-anchor-dont-touch: reset_password
