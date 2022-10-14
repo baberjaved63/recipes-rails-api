@@ -1,7 +1,5 @@
 if @error_message.blank?
-  json.ingredient do
-    json.amount @amount
-  end
+  json.converted_amount @amount
 else
   json.error_message @error_message
 end
